@@ -1,0 +1,67 @@
+﻿To the list of species, added:
+
+# 34 HC
+# 35 a1PI
+# 36 a2M
+# 37 IIa==HC
+# 38 IIa==a1PI
+# 39 IIa==a2M
+# 40 mIIa==HC
+# 41 mIIa==a1PI
+# 42 mIIa==a2M
+
+changed:
+def setIC(ICvector = np.array([10e-12, 1.45e-6, 2e-8, 1e-8, 1e-8/100, 7e-10, 9e-8, 1.6e-7, 3e-8, 3.45e-6, 2.5e-9]), includeExtras = False):
+to:
+def setIC(ICvector = np.array([10e-12, 1.45e-6, 2e-8, 1e-8, 1e-8/100, 7e-10, 9e-8, 1.6e-7, 3e-8, 3.5e-6, 2.5e-9, 1.2e-6, 3.2e-5, 2.4e-6]), includeExtras = False):
+
+changed:
+    IC = np.zeros(34);
+    IC[[0,13,20,1,3,14,10,7,28,25]] = np.delete(ICvector,8);
+to:
+    IC = np.zeros(43);
+    IC[[0,13,20,1,3,14,10,7,28,25,34,35,36]] = np.delete(ICvector,8);
+
+
+changed:
+    k = np.array([3.1e-3, 3.2e6, 3.1e-3, 2.3e7, 4.4e5, 1.3e7, 2.3e4, 1.05, 2.5e7, 6, 19, 2.2e7, 2.4, 1e7, 1.8, 7.5e3, 2.0e7, 5e-3, 1e7, 1e-3, 1e8, 8.2, 2.2e4, 6e-3, 1e-3, 2e7, 0.2, 4e8, 103, 1e8, 63.5, 1.5e7, 3.6e-4, 9e5, 1.1e-4, 3.2e8, 5e7, 1.5e3, 7.1e3, 4.9e2, 7.1e3, 2.3e2]);
+to:
+    k = np.array([3.1e-3, 3.2e6, 3.1e-3, 2.3e7, 4.4e5, 1.3e7, 2.3e4, 1.05, 2.5e7, 6, 19, 2.2e7, 2.4, 1e7, 1.8, 7.5e3, 2.0e7, 5e-3, 1e7, 1e-3, 1e8, 8.2, 2.2e4, 6e-3, 1e-3, 2e7, 0.2, 4e8, 103, 1e8, 63.5, 1.5e7, 3.6e-4, 9e5, 1.1e-4, 3.2e8, 5e7, 1.5e3, 1.0e4, 4.9e2, 1.0e4, 2.3e2, 2.7e3, 16.0, 3.9e3]);
+
+
+
+changed:
+    dy = np.zeros(34);
+to:
+    dy = np.zeros(43);
+
+and added:
+
+    # IIa + HC -> IIa==HC
+    rate = k[42]*y[6]*y[34];
+    dy[[6,34,37]] += [-rate, -rate, rate];
+
+    # IIa + a1PI -> IIa==a1PI
+    rate = k[43]*y[6]*y[35];
+    dy[[6,35,38]] += [-rate, -rate, rate];
+
+    # IIa + a2M -> IIa==a2M
+    rate = k[44]*y[6]*y[36];
+    dy[[6,36,39]] += [-rate, -rate, rate];
+
+    # mIIa + HC -> mIIa==HC
+    rate = k[42]*y[24]*y[34];
+    dy[[24,34,40]] += [-rate, -rate, rate];
+
+    # mIIa + a1PI -> mIIa==a1PI
+    rate = k[43]*y[24]*y[35];
+    dy[[24,35,41]] += [-rate, -rate, rate];
+
+    # mIIa + a2M -> mIIa==a2M
+    rate = k[44]*y[24]*y[36];
+    dy[[24,36,42]] += [-rate, -rate, rate];
+
+
+
+
+
